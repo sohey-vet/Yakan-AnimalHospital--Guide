@@ -96,11 +96,19 @@ VetHospitalMap.prototype.initMap = function() {
     }
 };
 
-window.initMap = function() {
+// Global initMap function for Google Maps callback
+function initMap() {
+    console.log('initMap called - Google Maps API loaded');
+    
     if (vetMapInstance) {
         vetMapInstance.initMap();
+    } else {
+        console.error('vetMapInstance not found');
     }
-};
+}
+
+// Make it globally available
+window.initMap = initMap;
 
 VetHospitalMap.prototype.initializeApp = function() {
     const elements = this.domElements;
@@ -248,6 +256,14 @@ function searchByLocationName() {
 function searchHospitals(location) {
     clearMarkers();
     console.log('🏥 Starting hospital search for location:', location);
+    
+    // 18時前の場合は警告メッセージを表示
+    const now = new Date();
+    const currentHour = now.getHours();
+    if (currentHour < 18) {
+        showError(`現在は${currentHour}時です。夜間救急病院の検索は18時以降にご利用ください。\n\n緊急の場合は、日中診療の動物病院または救急対応可能な病院に直接お電話ください。`);
+        return;
+    }
 
     // Try multiple search strategies
     const searchStrategies = [
@@ -664,23 +680,31 @@ function shareToTwitter() {
  * @return {boolean} True if hospital should be displayed
  */
 function shouldDisplayHospital(place) {
-    // If no opening hours info, display it (営業時間不明)
+    // 現在時刻チェック: 18時以降の場合のみ夜間病院を表示
+    const now = new Date();
+    const currentHour = now.getHours();
+    
+    // 18時未満の場合は表示しない
+    if (currentHour < 18) {
+        return false;
+    }
+    
+    // 営業時間情報がない場合は表示（営業時間不明として扱う）
     if (!place.opening_hours) {
         return true;
     }
     
-    // Check if hospital is open
+    // Google Places APIの営業状況をチェック
     let isOpen = false;
     if (place.opening_hours.isOpen && typeof place.opening_hours.isOpen === 'function') {
         isOpen = place.opening_hours.isOpen();
     } else if (place.opening_hours.open_now !== undefined) {
         isOpen = place.opening_hours.open_now;
     } else {
-        // If we can't determine status, show it
+        // 営業状況が不明な場合は表示
         return true;
     }
     
-    // Only display if open or if status is unknown
     return isOpen;
 }
 

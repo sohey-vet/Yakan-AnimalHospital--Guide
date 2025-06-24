@@ -225,6 +225,14 @@ class SecureVetHospitalMap {
     async searchHospitals(location) {
         this.clearMarkers();
         console.log('🏥 Starting secure hospital search for location:', location);
+        
+        // 18時前の場合は警告メッセージを表示
+        const now = new Date();
+        const currentHour = now.getHours();
+        if (currentHour < 18) {
+            this.showError(`現在は${currentHour}時です。夜間救急病院の検索は18時以降にご利用ください。\n\n緊急の場合は、日中診療の動物病院または救急対応可能な病院に直接お電話ください。`);
+            return;
+        }
 
         const searchStrategies = [
             {
@@ -456,16 +464,28 @@ class SecureVetHospitalMap {
     }
 
     shouldDisplayHospital(place) {
+        // 現在時刻チェック: 18時以降の場合のみ夜間病院を表示
+        const now = new Date();
+        const currentHour = now.getHours();
+        
+        // 18時未満の場合は表示しない
+        if (currentHour < 18) {
+            return false;
+        }
+        
+        // 営業時間情報がない場合は表示（営業時間不明として扱う）
         if (!place.opening_hours) {
             return true;
         }
         
+        // Google Places APIの営業状況をチェック
         let isOpen = false;
         if (place.opening_hours.isOpen && typeof place.opening_hours.isOpen === 'function') {
             isOpen = place.opening_hours.isOpen();
         } else if (place.opening_hours.open_now !== undefined) {
             isOpen = place.opening_hours.open_now;
         } else {
+            // 営業状況が不明な場合は表示
             return true;
         }
         
