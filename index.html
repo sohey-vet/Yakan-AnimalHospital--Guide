@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夜間救急どうぶつ病院マップ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🏥</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header" role="banner">
+            <h1 class="app-title">夜間救急どうぶつ病院マップ</h1>
+            <p class="app-subtitle">夜19時から朝９時までの間に受診診療可能の動物病院を探します</p>
+        </header>
+
+        <main class="main-content" role="main">
+            <section class="search-section" aria-label="検索設定">
+                <div class="search-methods" role="group" aria-label="検索方法選択">
+                    <button id="currentLocationBtn" class="search-method-btn active" aria-pressed="true">
+                        📍 現在地から探す
+                    </button>
+                    <button id="locationNameBtn" class="search-method-btn" aria-pressed="false">
+                        🔍 地名で探す
+                    </button>
+                </div>
+
+                <div id="locationNameInput" class="location-input" style="display: none;">
+                    <label for="locationName" class="visually-hidden">地名を入力</label>
+                    <input type="text" id="locationName" placeholder="例：新宿駅、札幌市中央区" value="東京" aria-label="検索したい地名">
+                </div>
+
+                <button id="searchBtn" class="search-button" aria-describedby="search-description">
+                    🚨 病院を検索
+                </button>
+                <div id="search-description" class="visually-hidden">現在の設定で動物病院を検索します</div>
+            </section>
+
+            <div id="loadingArea" class="loading-area" style="display: none;" role="status" aria-live="polite">
+                <div class="loading-spinner" aria-hidden="true"></div>
+                <p class="loading-text">現在地から診療中の病院を探しています...</p>
+            </div>
+
+            <div id="errorArea" class="error-area" style="display: none;" role="alert" aria-live="assertive">
+                <div class="error-icon" aria-hidden="true">⚠️</div>
+                <p id="errorMessage" class="error-message"></p>
+                <button id="retryBtn" class="retry-button">もう一度検索</button>
+            </div>
+
+            <div id="resultsArea" class="results-area" style="display: none;">
+                <div class="map-container">
+                    <div id="map" class="map" role="application" aria-label="動物病院の位置を示す地図"></div>
+                </div>
+
+                <section class="hospitals-section" aria-label="検索結果">
+                    <h2 class="hospitals-title">診療中の病院</h2>
+                    <div id="hospitalsList" class="hospitals-list" role="list"></div>
+                </section>
+            </div>
+
+            <div class="action-section">
+                <button id="shareBtn" class="action-btn share-btn" aria-describedby="share-description">
+                    🐦 Xでシェア
+                </button>
+                <div id="share-description" class="visually-hidden">X(Twitter)でこのアプリをシェアします</div>
+                <button id="feedbackBtn" class="action-btn feedback-btn" aria-describedby="feedback-description">
+                    📝 感想・報告
+                </button>
+                <div id="feedback-description" class="visually-hidden">アプリに関する感想や報告を送信します</div>
+            </div>
+        </main>
+
+        <footer class="app-footer" role="contentinfo">
+            <div class="disclaimers">
+                <div class="disclaimer-item">
+                    <h3>⚠️ 重要な注意事項</h3>
+                    <ul>
+                        <li>表示される情報はGoogleマップのデータに基づいています。診療時間や休診日は急遽変更されることがあります。</li>
+                        <li><strong>受診する前には、必ず病院に直接電話をして、診療可能かご確認ください。</strong></li>
+                        <li>本ツールの利用によって生じたいかなる損害についても、運営者は一切の責任を負いません。</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 夜間救急どうぶつ病院マップ</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // エラーハンドリング
+        window.gm_authFailure = function() {
+            console.error('Google Maps API 認証失敗');
+            document.getElementById('map').innerHTML = '<div style="text-align:center;padding:50px;color:#dc3545;"><h3>⚠️ Google Maps API エラー</h3><p>APIキーが無効または制限設定に問題があります</p></div>';
+        };
+        
+        // タイムアウトチェック
+        setTimeout(function() {
+            if (!window.google || !window.google.maps) {
+                console.error('Google Maps API 読み込みタイムアウト');
+                document.getElementById('map').innerHTML = '<div style="text-align:center;padding:50px;color:#dc3545;"><h3>⚠️ 読み込みエラー</h3><p>Google Maps APIの読み込みに失敗しました</p></div>';
+            }
+        }, 10000);
+    </script>
+    <script>
+        // Load Google Maps API with config
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsApiKey}&libraries=places&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        script.onerror = function() {
+            console.error('Google Maps API script failed to load');
+            document.getElementById('map').innerHTML = '<div style="text-align:center;padding:50px;color:#dc3545;"><h3>⚠️ API読み込み失敗</h3><p>Google Maps APIの読み込みに失敗しました。APIキーを確認してください。</p></div>';
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

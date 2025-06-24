@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Maps API Test</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+            background-color: #f0f0f0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Google Maps API テスト</h1>
+    <div id="status" class="status">マップを読み込み中...</div>
+    <div id="map"></div>
+    
+    <script>
+        function initMap() {
+            console.log('Google Maps API loaded successfully');
+            document.getElementById('status').className = 'status success';
+            document.getElementById('status').innerHTML = '✅ Google Maps API が正常に読み込まれました';
+            
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: { lat: 35.6762, lng: 139.6503 }
+            });
+            
+            new google.maps.Marker({
+                position: { lat: 35.6762, lng: 139.6503 },
+                map: map,
+                title: 'テスト マーカー'
+            });
+        }
+        
+        // Error handling
+        window.gm_authFailure = function() {
+            console.error('Google Maps API authentication failed');
+            document.getElementById('status').className = 'status error';
+            document.getElementById('status').innerHTML = '❌ API認証に失敗しました。APIキーを確認してください。';
+        };
+        
+        // Timeout check
+        setTimeout(function() {
+            if (!window.google || !window.google.maps) {
+                document.getElementById('status').className = 'status error';
+                document.getElementById('status').innerHTML = '❌ Google Maps APIの読み込みがタイムアウトしました。';
+            }
+        }, 10000);
+    </script>
+    
+    <script async defer 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC9uzLvRVIwWZ9W-lhjaQtWL4jOc1aAp0&callback=initMap">
+    </script>
+</body>
+</html>

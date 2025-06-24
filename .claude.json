@@ -1,0 +1,324 @@
+{
+  "numStartups": 3,
+  "tipsHistory": {
+    "new-user-warmup": 1
+  },
+  "promptQueueUseCount": 5,
+  "firstStartTime": "2025-06-21T00:53:43.753Z",
+  "userID": "7ca4b8ff0102720e56c0ab94a591b2a6a44e84a22b1deaaf5f571705b68da3af",
+  "projects": {
+    "/home/souhei": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "続けて",
+          "pastedContents": {}
+        },
+        {
+          "display": "一旦保存してGitHubにアップしておいて",
+          "pastedContents": {}
+        },
+        {
+          "display": "電話番号の表示と、タップしてスマホで電話かけられるようにして",
+          "pastedContents": {}
+        },
+        {
+          "display": "表示結果について。",
+          "pastedContents": {}
+        },
+        {
+          "display": "検索結果は出たけど、スマホで見やすい表示にして",
+          "pastedContents": {}
+        },
+        {
+          "display": "検索結果表示されないよ",
+          "pastedContents": {}
+        },
+        {
+          "display": "検索結果がでないよ",
+          "pastedContents": {}
+        },
+        {
+          "display": "Pinの形状はフラッグっぽいものにして",
+          "pastedContents": {}
+        },
+        {
+          "display": "Pin",
+          "pastedContents": {}
+        },
+        {
+          "display": "APIが読み込まれませんと出てます",
+          "pastedContents": {}
+        },
+        {
+          "display": "検索結果の表示がおかしいままです",
+          "pastedContents": {}
+        },
+        {
+          "display": "git push -u origin main",
+          "pastedContents": {}
+        },
+        {
+          "display": "git branch -M main",
+          "pastedContents": {}
+        },
+        {
+          "display": "git remote add origin https://github.com/sohey-vet/Yakan-AnimalHospital--Guide.git",
+          "pastedContents": {}
+        },
+        {
+          "display": "git commit -m \"初回コミット: 動物病院マップアプリ\"夜間動物救急病院検索アプリ",
+          "pastedContents": {}
+        },
+        {
+          "display": "git add .",
+          "pastedContents": {}
+        },
+        {
+          "display": "git init",
+          "pastedContents": {}
+        },
+        {
+          "display": "pwd",
+          "pastedContents": {}
+        },
+        {
+          "display": "一度GitHubにアップしたい",
+          "pastedContents": {}
+        },
+        {
+          "display": "地図が表示されなくなったよ",
+          "pastedContents": {}
+        },
+        {
+          "display": "制限したあたらしいAPIキー　AIzaSyCrR07t7S7AZ3p09dxfrg1toT3DcVKD3Ts",
+          "pastedContents": {}
+        },
+        {
+          "display": "  2. 左メニュー「APIとサービス」→「クォータ」をクリック　とは？",
+          "pastedContents": {}
+        },
+        {
+          "display": "では対策方法をステップバイステップで教えて",
+          "pastedContents": {}
+        },
+        {
+          "display": "APIキーっていま制限解除してるはずだけど、このままでいいの？それと、セキュリティ的に表にあって大丈夫なの？",
+          "pastedContents": {}
+        },
+        {
+          "display": "検索結果が出なくなった",
+          "pastedContents": {}
+        },
+        {
+          "display": "pinと病院名が重なってみづらい。というかPinで表示されてないよ",
+          "pastedContents": {}
+        },
+        {
+          "display": "検索結果で表示される病院にかんして、・地図上でピンで表示し病院名もわかるようにして",
+          "pastedContents": {}
+        },
+        {
+          "display": "デフォルトの位置を「東京」にして",
+          "pastedContents": {}
+        },
+        {
+          "display": "GET http://localhost:8000/favicon.ico 404 (File not found)\nImage        \nM    @    content.js:1\n(anonymous)    @    content.js:1\n(anonymous)    @    content.js:1",
+          "pastedContents": {}
+        },
+        {
+          "display": "地図は出ました",
+          "pastedContents": {}
+        },
+        {
+          "display": "AIzaSyCrR07t7S7AZ3p09dxfrg1toT3DcVKD3Ts",
+          "pastedContents": {}
+        },
+        {
+          "display": "Google Maps JavaScript API error: InvalidKeyMapError\nhttps://developers.google.com/maps/documentation/javascript/error-messages#invalid-key-map-error\n_.Sk    @    js?key=AIzaSyCrR07t7…llback=initMap:1370",
+          "pastedContents": {}
+        },
+        {
+          "display": "AIzaSyCrR07t7S7AZ3p09dxfrg1toT3DcVKD3TsにAPIキーを書き換えてください",
+          "pastedContents": {}
+        },
+        {
+          "display": "APIキーが無効みたいなんだ。APIキー再設定の方法をステップバイステップで教えて",
+          "pastedContents": {}
+        },
+        {
+          "display": "サイトは表示されるが、立ち上がった瞬間からマップを東京中心で表示して欲しい",
+          "pastedContents": {}
+        },
+        {
+          "display": "サイトアクセスが出来なくなった",
+          "pastedContents": {}
+        },
+        {
+          "display": "ローカルでちゃんと動いているの？",
+          "pastedContents": {}
+        },
+        {
+          "display": "1",
+          "pastedContents": {}
+        },
+        {
+          "display": "# ショートカット的な使い方\nclaude \"関数の説明を追加\"\nclaude \"テストを書いて\"\nclaude \"リファクタリングして\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "ここでいったん終了したいんだけど",
+          "pastedContents": {}
+        },
+        {
+          "display": "AIzaSyDC9uzLvRVIwWZ9W-lhjaQtWL4jOc1aAp0",
+          "pastedContents": {}
+        },
+        {
+          "display": "アクセスできん",
+          "pastedContents": {}
+        },
+        {
+          "display": "Failed to load resource: the server responded with a status of 404 (File not found)",
+          "pastedContents": {}
+        },
+        {
+          "display": "表示されるが地図は出てない",
+          "pastedContents": {}
+        },
+        {
+          "display": "1テストページでないからF12もでないクソ",
+          "pastedContents": {}
+        },
+        {
+          "display": "そもそも地図が表示されてないんだけど",
+          "pastedContents": {}
+        },
+        {
+          "display": "サイトすら見えなくなった",
+          "pastedContents": {}
+        },
+        {
+          "display": "どのボタンをタップしても反応しない",
+          "pastedContents": {}
+        },
+        {
+          "display": "http://127.0.0.1:8000/",
+          "pastedContents": {}
+        },
+        {
+          "display": "3",
+          "pastedContents": {}
+        },
+        {
+          "display": "ファイルをダウンロード\n\n  作成されたファイルを自分のコンピュータにダウンロード：\n  - index.html\n  - style.css\n  - script.js\n  - README.md\nどうやんの",
+          "pastedContents": {}
+        },
+        {
+          "display": "開かない",
+          "pastedContents": {}
+        },
+        {
+          "display": "index.html をダブルクリックって押せるようにしてよ",
+          "pastedContents": {}
+        },
+        {
+          "display": "頼むからあなたが置き換えて",
+          "pastedContents": {}
+        },
+        {
+          "display": "AIzaSyDC9uzLvRVIwWZ9W-lhjaQtWL4jOc1aAp0",
+          "pastedContents": {}
+        },
+        {
+          "display": " Ctrl+F (Windows) はどこで入力すんの",
+          "pastedContents": {}
+        },
+        {
+          "display": "indexの90行目出せない",
+          "pastedContents": {}
+        },
+        {
+          "display": "90行目をどうやって出すの？",
+          "pastedContents": {}
+        },
+        {
+          "display": "AIzaSyDC9uzLvRVIwWZ9W-lhjaQtWL4jOc1aAp0",
+          "pastedContents": {}
+        },
+        {
+          "display": "制限は完了してるよ",
+          "pastedContents": {}
+        },
+        {
+          "display": "APIキー貼り付けても大丈夫？",
+          "pastedContents": {}
+        },
+        {
+          "display": "APIキーどうやって貼り付けるの？",
+          "pastedContents": {}
+        },
+        {
+          "display": "API",
+          "pastedContents": {}
+        },
+        {
+          "display": "[Pasted text #1 +84 lines]",
+          "pastedContents": {
+            "1": {
+              "id": 1,
+              "type": "text",
+              "content": "仕様書ジェネレーター\n①【基本情報】\n● ツール名案\n→ 夜間救急どうぶつ病院マップ\n\n補足：飼い主が緊急時に「夜間 救急 動物病院」といったキーワードで検索することを想定し、シンプルで分かりやすい名称にしました。\n● ターゲットユーザー（誰向け？）\n→ (5) その他（自由記述）\n犬や猫の飼い主全般。特に、以下のようなユーザーを想定。\n\n夜間や休日にペットの体調が急変し、動揺している、またはパニックになっている方\n土地勘のない場所（旅行先など）で、緊急で動物病院を探している方\n掛かりつけ医が時間外や休診で対応できず、他の病院を探している方\n● ツールの目的・概要（何をするツール？）\n→ (5) その他（自由記述）\nGoogle Maps API を活用し、ユーザーの現在地または指定した場所から、現在診療を受け付けている可能性が高い夜間・救急対応の動物病院を検索し、地図とリストで迅速に提示するツール。飼い主がパニック状態でも、直感的な操作で必要な情報にたどり着き、速やかな受診行動に移れるようサポートすることを目的とする。\n\n②【機能詳細】\n● ユーザー入力項目\n→ (5) その他（自由記述）\n\n検索方法の選択（必須）：\nボタン形式：「現在地から探す」「地名で探す」\n地名入力（「地名で探す」選択時）：\nテキスト入力（例：「新宿駅」「札幌市中央区」）\n● 処理ロジック\n→ (5) その他（自由記述）\n\n「現在地から探す」が選択された場合、ブラウザの位置情報取得機能でユーザーの現在地（緯度・経度）を取得する。\n取得した現在地、または入力された地名を元に、Google Maps API (Maps) を使用して動物病院を検索する。\nAPIへのリクエストは以下の条件を基本とする。\nquery: 「夜間救急 動物病院」または「動物病院 休日診療」\nlocation_bias: 取得した現在地 (MY_LOCATION) またはユーザーが入力した地名\nrank_preference: distance （現在地から近い順に表示）\nonly_open_now: True （現在診療中の場所のみに絞り込む最重要機能）\nAPIから取得した病院情報を、現在地から近い順にソートして表示する。\n情報が取得できなかった場合は、「この周辺には現在診療中の夜間救急病院が見つかりませんでした。検索範囲を広げるか、地域の動物医師会などにご確認ください」といったメッセージを表示する。\n● 結果表示\n→ (5) その他（自由記述）\n\n地図表示：\n画面上部にGoogle Mapを表示し、検索結果の病院をピンでプロットする。現在地も表示する。\n病院リスト表示：\n地図の下に、検索結果の病院をカード形式のリストで表示する。\n各カードには以下の情報を分かりやすく記載する。\n病院名\n現在地からの直線距離（例：約1.5km）\n住所\n電話番号\nアクションボタン：\n各病院カードに、以下のボタンを設置する。\n「電話をかける」ボタン： タップすると即座に電話を発信できる。\n「地図アプリで開く」ボタン： タップするとGoogle マップアプリが起動し、その病院までのルート案内が開始される。\n③【デザイン・レイアウト】\n雰囲気：(1) シンプル\n緊急時に焦っていても、直感的に操作ができるよう、ボタンや情報を大きく配置。迷わせないことを最優先したUI。\nメインカラー・アクセントカラー：\nメインカラー: #FFFFFF (白)\nベースカラー（背景）: #F0F4F8 (落ち着いた薄い青色)\nテキストカラー: #212529 (濃いグレー)\nアクセントカラー（重要ボタンなど）: #007BFF (信頼感のある青)\nアクセントカラー（電話ボタンなど緊急性の高いアクション）: #dc3545 (赤)\nフォント：(1) ゴシック\nRoboto, Noto Sans JP など、視認性の高いサンセリフ体のフォントを使用。\nレスポンシブ：(1) モバイル優先\nスマートフォンでの利用が100%と想定し、モバイルファーストでレイアウトを設計する。\nその他デザイン指示：\nローディング画面では、「現在地から診療中の病院を探しています…」といったステータスを分かりやすく表示し、ユーザーの不安を軽減する。\nエラーメッセージ（位置情報が取得できない、病院が見つからない等）も、赤などの警告色で目立つように表示する。\n④【その他指示】\nJavaScript の具体挙動：\nページ読み込み時、または「現在地から探す」ボタンクリック時に、ブラウザのGeolocation APIを呼び出して位置情報を取得する。\n取得した位置情報または入力された地名をパラメータとして、Google Maps API (Maps) へ非同期リクエストを送信する。\nレスポンスとして受け取ったJSONデータをパースし、地図上のマーカーと、画面下部の病院情報リストを動的に生成・描画する。\nCTA（複数可）：\n1. X でシェア\n4. もう一回診断 （別の場所で探し直す）\n6. 詳細ページ （先生のXアカウントや救急に関する情報発信メディアへのリンク）\n8. 感想フォーム （「この情報が古かった」等の報告やツール改善のためのフォーム）\nコピーライト表記：\n© 2025 [先生のお名前やクリニック名など]\n【最重要】免責事項として、以下の内容を必ずフッターに大きく、分かりやすく記載する。\n「表示される情報はGoogleマップのデータに基づいています。診療時間や休診日は急遽変更されることがあります。」\n「受診する前には、必ず病院に直接電話をして、診療可能かご確認ください。」\n「本ツールの利用によって生じたいかなる損害についても、運営者は一切の責任を負いません。」"
+            }
+          }
+        },
+        {
+          "display": "[Pasted text #1 +92 lines]",
+          "pastedContents": {
+            "1": {
+              "id": 1,
+              "type": "text",
+              "content": "①【基本情報】\n● ツール名案\n→ おうちで救急【犬猫たべもの危険度チェッカー】\n\n補足：先生の専門である「救急」という言葉を入れ、飼い主が緊急時に頼れるツールであることを示唆しました。\n● ターゲットユーザー（誰向け？）\n→ (5) その他（自由記述）\n犬や猫の飼い主全般。特に、以下のようなユーザーを想定。\n\n初めてペットを飼育する方\n子犬や子猫など、誤飲・誤食のリスクが高い年齢のペットと暮らす方\nかかりつけの動物病院が診療時間外の際に、不安を感じている方\n● ツールの目的・概要（何をするツール？）\n→ (5) その他（自由記述）\nペットが特定の食べ物や植物、人間の薬などを口にしてしまった際に、飼い主がその物質の危険性を簡易的に判定し、**取るべき初期対応（緊急受診の必要性判断、かかりつけ医への連絡など）**をサポートするための診断ツール。あくまで医療診断を代替するものではなく、適切な受診行動を促すことを目的とする。\n\n②【機能詳細】\n● ユーザー入力項目\n→ (4) 複数組み合わせ\n\nペットの種類（必須）：\n選択肢（ラジオボタン）：「犬」「猫」\n食べたもの（必須）：\nテキスト入力（キーワード検索に対応）\n例：「チョコレート」「玉ねぎ」「ユリ」「解熱剤」など\nペットの体重（任意）：\n数値入力（kg）\n補足：体重あたりの致死量を考慮した、より詳細な判定ロジックへの拡張性を確保します。\n食べた量（任意）：\nテキスト入力\n例：「ひとかけら」「少量」「錠剤半分」など\n● 処理ロジック\n→ (1) 条件分岐\n\n事前に「食べ物・物質データベース」を定義する（スプレッドシート等での管理を想定）。このデータベースには、物質名、対象動物（犬/猫/両方）、危険度レベル、中毒症状、致死量の目安、獣医師からのアドバイス等を格納する。\nユーザーが入力した「食べたもの」とデータベースを照合する。\n危険度を以下の4段階で判定し、それぞれに応じた結果を表示する。\nレベル赤（緊急）： 直ちに命に関わる可能性が高い物質（例：ユリ、保冷剤、人間の医薬品など）\nレベル黄（危険）： 中毒症状を引き起こす可能性が高い物質（例：チョコレート、玉ねぎ、ぶどうなど）\nレベル青（注意）： 大量に摂取した場合や体質によって症状が出る可能性がある物質（例：牛乳など）\nレベル緑（安全/不明）： 一般的に無害とされる、またはデータがない物質\n入力された「ペットの種類」によって、表示する結果を分岐させる（例：犬には無害でも猫には有毒なネギ類など）。\nGoogle Search API を利用し、「（食べたもの） 犬/猫 中毒」といったキーワードで検索した結果ページへのリンクを生成する。\n● 結果表示\n→ (5) その他（自由記述）\n\n危険度レベルの表示：\n判定された危険度レベル（赤・黄・青・緑）を、色付きの大きなアイコンとテキストで分かりやすく表示する。（例：「緊急！」「危険」「注意」「ほぼ安全」）\n獣医師からのアドバイス：\n危険度レベルに応じた、具体的で分かりやすいアドバイスを箇条書きで表示。先生の監修のもと、信頼性の高い情報を提供する。\n（例：レベル赤の場合）\n「直ちに夜間救急対応が可能な動物病院を受診してください！」\n「食べたものの残りやパッケージを持参しましょう。」\n「自己判断で吐かせようとしないでください。」\n中毒症状の例：\nデータベースに基づき、考えられる中毒症状（嘔吐、下痢、痙攣など）を表示する。\nアクションボタン（CTA）：\nレベル赤・黄の場合： Google Maps APIと連携し、「近くの動物病院を探す」ボタンを表示。クリックすると、Google Mapで「動物病院 夜間救急」を検索した結果に遷移する。\n全レベル共通：\n「もう一度診断する」ボタン\n「診断結果をX（Twitter）でシェア」ボタン\n先生のXアカウントやブログへのリンクボタン\n③【デザイン・レイアウト】\n雰囲気：(1) シンプル\n緊急時に使うことを想定し、余計な装飾を排し、情報が瞬時に理解できるクリーンなデザイン。信頼性と安心感を重視。\nメインカラー・アクセントカラー：\nメインカラー: #FFFFFF (白)\nベースカラー: #F5F5F5 (薄いグレー)\nテキストカラー: #333333 (黒に近いグレー)\nアクセントカラー（安全・安心）: #28a745 (緑)\nアクセントカラー（注意）: #ffc107 (黄)\nアクセントカラー（緊急・危険）: #dc3545 (赤)\nフォント：(1) ゴシック\n可読性が高く、スマートフォンでも読みやすい Noto Sans JP などを推奨。\nレスポンシブ：(1) モバイル優先\n飼い主が手元のスマートフォンで緊急時に使用するシーンを最優先に設計する。\nその他デザイン指示：\n入力フォームは大きく、タップしやすいデザインにする。\n結果表示部分は、重要な情報（危険度、アドバイス）ほど大きく太い文字で表示し、情報の優先順位を明確にする。\nローディング中には、犬や猫のかわいいアニメーションを表示し、ユーザーの不安を和らげる工夫を入れる。\n④【その他指示】\nJavaScript の具体挙動：\n入力フォームに「食べたもの」が入力されると、データベースと照合し、結果表示エリアの内容を非同期通信で動的に書き換える。\n結果表示の際に、危険度レベルに応じて背景色やアイコンがスムーズに切り替わるアニメーション効果を実装する。\nGoogle Maps API連携のため、「近くの動物病院を探す」ボタンがクリックされた際に、位置情報を取得する許可を求め、緯度経度を元に検索URLを生成する。\nCTA（複数可）：\n1. X でシェア\n4. もう一回診断\n6. 詳細ページ（先生のXアカウントや情報発信メディアへのリンク）\n10. お任せ → 上記に加えて「近くの動物病院を探す」（緊急度が高い場合のみ表示）\nコピーライト表記：\n© 2025 [先生のお名前やクリニック名、Xアカウント名など] | 監修：[先生のお名前]\n免責事項として「本ツールはあくまで判断の目安です。最終的な判断はかかりつけの獣医師にご相談ください。」という一文を必ずフッターに記載する。"
+            }
+          }
+        },
+        {
+          "display": "bash<br>code-insiders --install-extension ~/.config/claude-code/vscode/anthropic.claude-code-*.vsix --force<br>",
+          "pastedContents": {}
+        },
+        {
+          "display": "こんにちは\n",
+          "pastedContents": {}
+        },
+        {
+          "display": "1",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 3,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false
+    }
+  },
+  "oauthAccount": {
+    "accountUuid": "34184648-727e-4097-b42c-539c9fe29b39",
+    "emailAddress": "souhei1219@gmail.com",
+    "organizationUuid": "5f68a035-934e-4a6b-8eb9-ef57e9f72074",
+    "organizationRole": "admin",
+    "workspaceRole": null,
+    "organizationName": "souhei1219@gmail.com's Organization"
+  },
+  "shiftEnterKeyBindingInstalled": true,
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "1.0.31",
+  "subscriptionNoticeCount": 0,
+  "hasAvailableSubscription": false,
+  "cachedChangelog": "# Changelog\n\n## 1.0.27\n\n- Streamable HTTP MCP servers are now supported\n- Remote MCP servers (SSE and HTTP) now support OAuth\n- MCP resources can now be @-mentioned\n\n## 1.0.25\n\n- Slash commands: moved \"project\" and \"user\" prefixes to descriptions\n- Slash commands: improved reliability for command discovery\n- Improved support for Ghostty\n- Improved web search reliability\n\n## 1.0.24\n\n- Improved /mcp output\n- Fixed a bug where settings arrays got overwritten instead of merged\n\n## 1.0.23\n\n- Released TypeScript SDK: import @anthropic-ai/claude-code to get started\n- Released Python SDK: pip install claude-code-sdk to get started\n\n## 1.0.22\n\n- SDK: Renamed `total_cost` to `total_cost_usd`\n\n## 1.0.21\n\n- Improved editing of files with tab-based indentation\n- Fix for tool_use without matching tool_result errors\n- Fixed a bug where stdio MCP server processes would linger after quitting Claude Code\n\n## 1.0.18\n\n- Added --add-dir CLI argument for specifying additional working directories\n- Added streaming input support without require -p flag\n- Improved startup performance and session storage performance\n- Added CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR environment variable to freeze working directory for bash commands\n- Added detailed MCP server tools display (/mcp)\n- MCP authentication and permission improvements\n- Added auto-reconnection for MCP SSE connections on disconnect\n- Fixed issue where pasted content was lost when dialogs appeared\n\n## 1.0.17\n\n- We now emit messages from sub-tasks in -p mode (look for the parent_tool_use_id property)\n- Fixed crashes when the VS Code diff tool is invoked multiple times quickly\n- MCP server list UI improvements\n- Update Claude Code process title to display \"claude\" instead of \"node\"\n\n## 1.0.11\n\n- Claude Code can now also be used with a Claude Pro subscription\n- Added /upgrade for smoother switching to Claude Max plans\n- Improved UI for authentication from API keys and Bedrock/Vertex/external auth tokens\n- Improved shell configuration error handling\n- Improved todo list handling during compaction\n\n## 1.0.10\n\n- Added markdown table support\n- Improved streaming performance\n\n## 1.0.8\n\n- Fixed Vertex AI region fallback when using CLOUD_ML_REGION\n- Increased default otel interval from 1s -> 5s\n- Fixed edge cases where MCP_TIMEOUT and MCP_TOOL_TIMEOUT weren't being respected\n- Fixed a regression where search tools unnecessarily asked for permissions\n- Added support for triggering thinking non-English languages\n- Improved compacting UI\n\n## 1.0.7\n\n- Renamed /allowed-tools -> /permissions\n- Migrated allowedTools and ignorePatterns from .claude.json -> settings.json\n- Deprecated claude config commands in favor of editing settings.json\n- Fixed a bug where --dangerously-skip-permissions sometimes didn't work in --print mode\n- Improved error handling for /install-github-app\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.6\n\n- Improved edit reliability for tab-indented files\n- Respect CLAUDE_CONFIG_DIR everywhere\n- Reduced unnecessary tool permission prompts\n- Added support for symlinks in @file typeahead\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.4\n\n- Fixed a bug where MCP tool errors weren't being parsed correctly\n\n## 1.0.1\n\n- Added `DISABLE_INTERLEAVED_THINKING` to give users the option to opt out of interleaved thinking.\n- Improved model references to show provider-specific names (Sonnet 3.7 for Bedrock, Sonnet 4 for Console)\n- Updated documentation links and OAuth process descriptions\n\n## 1.0.0\n\n- Claude Code is now generally available\n- Introducing Sonnet 4 and Opus 4 models\n\n## 0.2.125\n\n- Breaking change: Bedrock ARN passed to `ANTHROPIC_MODEL` or `ANTHROPIC_SMALL_FAST_MODEL` should no longer contain an escaped slash (specify `/` instead of `%2F`)\n- Removed `DEBUG=true` in favor of `ANTHROPIC_LOG=debug`, to log all requests\n\n## 0.2.117\n\n- Breaking change: --print JSON output now returns nested message objects, for forwards-compatibility as we introduce new metadata fields\n- Introduced settings.cleanupPeriodDays\n- Introduced CLAUDE_CODE_API_KEY_HELPER_TTL_MS env var\n- Introduced --debug mode\n\n## 0.2.108\n\n- You can now send messages to Claude while it works to steer Claude in real-time\n- Introduced BASH_DEFAULT_TIMEOUT_MS and BASH_MAX_TIMEOUT_MS env vars\n- Fixed a bug where thinking was not working in -p mode\n- Fixed a regression in /cost reporting\n- Deprecated MCP wizard interface in favor of other MCP commands\n- Lots of other bugfixes and improvements\n\n## 0.2.107\n\n- CLAUDE.md files can now import other files. Add @path/to/file.md to ./CLAUDE.md to load additional files on launch\n\n## 0.2.106\n\n- MCP SSE server configs can now specify custom headers\n- Fixed a bug where MCP permission prompt didn't always show correctly\n\n## 0.2.105\n\n- Claude can now search the web\n- Moved system & account status to /status\n- Added word movement keybindings for Vim\n- Improved latency for startup, todo tool, and file edits\n\n## 0.2.102\n\n- Improved thinking triggering reliability\n- Improved @mention reliability for images and folders\n- You can now paste multiple large chunks into one prompt\n\n## 0.2.100\n\n- Fixed a crash caused by a stack overflow error\n- Made db storage optional; missing db support disables --continue and --resume\n\n## 0.2.98\n\n- Fixed an issue where auto-compact was running twice\n\n## 0.2.96\n\n- Claude Code can now also be used with a Claude Max subscription (https://claude.ai/upgrade)\n\n## 0.2.93\n\n- Resume conversations from where you left off from with \"claude --continue\" and \"claude --resume\"\n- Claude now has access to a Todo list that helps it stay on track and be more organized\n\n## 0.2.82\n\n- Added support for --disallowedTools\n- Renamed tools for consistency: LSTool -> LS, View -> Read, etc.\n\n## 0.2.75\n\n- Hit Enter to queue up additional messages while Claude is working\n- Drag in or copy/paste image files directly into the prompt\n- @-mention files to directly add them to context\n- Run one-off MCP servers with `claude --mcp-config <path-to-file>`\n- Improved performance for filename auto-complete\n\n## 0.2.74\n\n- Added support for refreshing dynamically generated API keys (via apiKeyHelper), with a 5 minute TTL\n- Task tool can now perform writes and run bash commands\n\n## 0.2.72\n\n- Updated spinner to indicate tokens loaded and tool usage\n\n## 0.2.70\n\n- Network commands like curl are now available for Claude to use\n- Claude can now run multiple web queries in parallel\n- Pressing ESC once immediately interrupts Claude in Auto-accept mode\n\n## 0.2.69\n\n- Fixed UI glitches with improved Select component behavior\n- Enhanced terminal output display with better text truncation logic\n\n## 0.2.67\n\n- Shared project permission rules can be saved in .claude/settings.json\n\n## 0.2.66\n\n- Print mode (-p) now supports streaming output via --output-format=stream-json\n- Fixed issue where pasting could trigger memory or bash mode unexpectedly\n\n## 0.2.63\n\n- Fixed an issue where MCP tools were loaded twice, which caused tool call errors\n\n## 0.2.61\n\n- Navigate menus with vim-style keys (j/k) or bash/emacs shortcuts (Ctrl+n/p) for faster interaction\n- Enhanced image detection for more reliable clipboard paste functionality\n- Fixed an issue where ESC key could crash the conversation history selector\n\n## 0.2.59\n\n- Copy+paste images directly into your prompt\n- Improved progress indicators for bash and fetch tools\n- Bugfixes for non-interactive mode (-p)\n\n## 0.2.54\n\n- Quickly add to Memory by starting your message with '#'\n- Press ctrl+r to see full output for long tool results\n- Added support for MCP SSE transport\n\n## 0.2.53\n\n- New web fetch tool lets Claude view URLs that you paste in\n- Fixed a bug with JPEG detection\n\n## 0.2.50\n\n- New MCP \"project\" scope now allows you to add MCP servers to .mcp.json files and commit them to your repository\n\n## 0.2.49\n\n- Previous MCP server scopes have been renamed: previous \"project\" scope is now \"local\" and \"global\" scope is now \"user\"\n\n## 0.2.47\n\n- Press Tab to auto-complete file and folder names\n- Press Shift + Tab to toggle auto-accept for file edits\n- Automatic conversation compaction for infinite conversation length (toggle with /config)\n\n## 0.2.44\n\n- Ask Claude to make a plan with thinking mode: just say 'think' or 'think harder' or even 'ultrathink'\n\n## 0.2.41\n\n- MCP server startup timeout can now be configured via MCP_TIMEOUT environment variable\n- MCP server startup no longer blocks the app from starting up\n\n## 0.2.37\n\n- New /release-notes command lets you view release notes at any time\n- `claude config add/remove` commands now accept multiple values separated by commas or spaces\n\n## 0.2.36\n\n- Import MCP servers from Claude Desktop with `claude mcp add-from-claude-desktop`\n- Add MCP servers as JSON strings with `claude mcp add-json <n> <json>`\n\n## 0.2.34\n\n- Vim bindings for text input - enable with /vim or /config\n\n## 0.2.32\n\n- Interactive MCP setup wizard: Run \"claude mcp add\" to add MCP servers with a step-by-step interface\n- Fix for some PersistentShell issues\n\n## 0.2.31\n\n- Custom slash commands: Markdown files in .claude/commands/ directories now appear as custom slash commands to insert prompts into your conversation\n- MCP debug mode: Run with --mcp-debug flag to get more information about MCP server errors\n\n## 0.2.30\n\n- Added ANSI color theme for better terminal compatibility\n- Fixed issue where slash command arguments weren't being sent properly\n- (Mac-only) API keys are now stored in macOS Keychain\n\n## 0.2.26\n\n- New /approved-tools command for managing tool permissions\n- Word-level diff display for improved code readability\n- Fuzzy matching for slash commands\n\n## 0.2.21\n\n- Fuzzy matching for /commands\n",
+  "changelogLastFetched": 1750545407418,
+  "fallbackAvailableWarningThreshold": 0.5
+}

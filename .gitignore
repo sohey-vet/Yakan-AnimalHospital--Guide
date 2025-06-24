@@ -1,0 +1,39 @@
+# API Keys and Secrets (重要！)
+config.js
+config.local.js
+.env
+*.key
+*.secret
+
+# System and cache files
+.cache/
+.claude/
+.npm/
+.vscode-server*/
+.config/
+.dotnet/
+.bash_history
+.bash_logout
+.bashrc
+.profile
+.motd_shown
+.sudo_as_admin_successful
+*-update-notifier-last-checked
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
