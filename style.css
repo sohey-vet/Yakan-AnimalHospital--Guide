@@ -556,3 +556,40 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
     white-space: nowrap !important;
 }
+
+/* Security features styling */
+.security-badge {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.security-info {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+}
+
+.security-info h3 {
+    color: #28a745;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.security-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.security-info li {
+    padding: 4px 0;
+    font-size: 14px;
+    color: #495057;
+}
