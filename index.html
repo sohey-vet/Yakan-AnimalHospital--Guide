@@ -14,7 +14,7 @@
     <div class="container">
         <header class="app-header" role="banner">
             <h1 class="app-title">夜間救急どうぶつ病院マップ</h1>
-            <p class="app-subtitle">夜19時から朝９時までの間に受診診療可能の動物病院を探します</p>
+            <p class="app-subtitle">夜19時から朝９時までの間に診療可能の動物病院を探します</p>
         </header>
 
         <main class="main-content" role="main">
@@ -90,7 +90,6 @@
         </footer>
     </div>
 
-    <script src="config.js"></script>
     <script src="script.js"></script>
     <script>
         // エラーハンドリング
@@ -107,17 +106,9 @@
             }
         }, 10000);
     </script>
-    <script>
-        // Load Google Maps API with config
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsApiKey}&libraries=places&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-        script.onerror = function() {
-            console.error('Google Maps API script failed to load');
-            document.getElementById('map').innerHTML = '<div style="text-align:center;padding:50px;color:#dc3545;"><h3>⚠️ API読み込み失敗</h3><p>Google Maps APIの読み込みに失敗しました。APIキーを確認してください。</p></div>';
-        };
-        document.head.appendChild(script);
+    
+    <script async defer 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrR07t7S7AZ3p09dxfrg1toT3DcVKD3Ts&libraries=places&callback=initMap">
     </script>
 </body>
 </html>
