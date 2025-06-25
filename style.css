@@ -279,6 +279,24 @@ body {
     margin-bottom: 8px;
 }
 
+.hospital-hours {
+    font-size: 14px;
+    color: #212529;
+    margin-bottom: 12px;
+}
+
+.hours-label {
+    font-weight: 600;
+    color: #495057;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.hours-text {
+    color: #6c757d;
+    line-height: 1.4;
+}
+
 .hospital-phone {
     font-size: 14px;
     color: #212529;
@@ -357,6 +375,20 @@ body {
 
 .map-btn:hover {
     background: #0056b3;
+}
+
+.website-btn {
+    background: #28a745;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.website-btn:hover {
+    background: #1e7e34;
+    color: white;
+    text-decoration: none;
 }
 
 /* Action section */

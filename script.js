@@ -184,25 +184,22 @@ VetHospitalMap.prototype.performSearch = function() {
     }
 };
 
-/**
- * Search for hospitals using device's current location
- * Uses geolocation API to get coordinates and search nearby hospitals
- */
-function searchByCurrentLocation() {
+VetHospitalMap.prototype.searchByCurrentLocation = function() {
     if (!navigator.geolocation) {
-        showError('位置情報がサポートされていません。地名で検索してください。');
+        this.showError('位置情報がサポートされていません。地名で検索してください。');
         return;
     }
 
+    const self = this;
     navigator.geolocation.getCurrentPosition(
         function(position) {
-            currentLocation = {
+            self.currentLocation = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
             
-            map.setCenter(currentLocation);
-            searchHospitals(currentLocation);
+            self.map.setCenter(self.currentLocation);
+            self.searchHospitals(self.currentLocation);
         },
         function(error) {
             let errorMsg = '位置情報の取得に失敗しました。';
@@ -217,7 +214,7 @@ function searchByCurrentLocation() {
                     errorMsg = '位置情報の取得がタイムアウトしました。もう一度お試しください。';
                     break;
             }
-            showError(errorMsg);
+            self.showError(errorMsg);
         },
         {
             enableHighAccuracy: true,
@@ -225,79 +222,103 @@ function searchByCurrentLocation() {
             maximumAge: 300000
         }
     );
-}
+};
 
-/**
- * Search for hospitals by location name
- * Uses geocoding to convert location name to coordinates
- */
-function searchByLocationName() {
-    let location = locationName.value.trim();
+VetHospitalMap.prototype.searchByLocationName = function() {
+    let location = this.domElements.locationName.value.trim();
     if (!location) {
         location = '東京'; // Default to Tokyo if no input
     }
 
+    const self = this;
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ address: location }, function(results, status) {
         if (status === 'OK' && results[0]) {
-            currentLocation = results[0].geometry.location;
-            map.setCenter(currentLocation);
-            searchHospitals(currentLocation);
+            self.currentLocation = results[0].geometry.location;
+            self.map.setCenter(self.currentLocation);
+            self.searchHospitals(self.currentLocation);
         } else {
-            showError('指定された地名が見つかりません。別の地名をお試しください。');
+            self.showError('指定された地名が見つかりません。別の地名をお試しください。');
         }
     });
-}
+};
 
-/**
- * Search for hospitals using Google Places API
- * @param {google.maps.LatLng|Object} location - Search center location
- */
-function searchHospitals(location) {
-    clearMarkers();
+VetHospitalMap.prototype.searchHospitals = function(location) {
+    this.clearMarkers();
     console.log('🏥 Starting hospital search for location:', location);
     
-    // 18時前の場合は警告メッセージを表示
+    // 新しい検索ロジック: 時間チェックと営業時間窓の計算
+    const sec18 = 18*3600, sec19 = 19*3600, sec9 = 9*3600, sec24 = 24*3600;
     const now = new Date();
-    const currentHour = now.getHours();
-    if (currentHour < 18) {
-        showError(`現在は${currentHour}時です。夜間救急病院の検索は18時以降にご利用ください。\n\n緊急の場合は、日中診療の動物病院または救急対応可能な病院に直接お電話ください。`);
-        return;
+    const currentSec = now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds();
+    const today = now.getDay();
+    let windowStart, windowEnd;
+
+    if (currentSec >= sec18 && currentSec < sec19) {
+        // 18:00〜18:59 → 19:00〜翌9:00
+        windowStart = sec19;
+        windowEnd   = sec9 + sec24;
+    } else if (currentSec >= sec19 || currentSec < sec9) {
+        // 19:00〜翌8:59 → 今〜翌9:00
+        windowStart = currentSec;
+        windowEnd   = currentSec < sec9 ? sec9 : sec9 + sec24;
+    } else {
+        // 夜間外 - テスト用に検索を実行
+        console.log('テスト用: 時間外ですが検索を実行します');
+        windowStart = sec19;
+        windowEnd = sec9 + sec24;
     }
 
-    // Try multiple search strategies
+    // Try multiple search strategies focused on emergency and night care
     const searchStrategies = [
         {
-            name: 'Primary: Type-based search',
+            name: 'Primary: Emergency animal hospital search',
+            request: {
+                location: location,
+                radius: 15000,
+                query: '夜間救急動物病院 24時間'
+            }
+        },
+        {
+            name: 'Secondary: Night animal hospital search',
+            request: {
+                location: location,
+                radius: 20000,
+                keyword: '夜間動物病院'
+            }
+        },
+        {
+            name: 'Tertiary: Emergency center search',
+            request: {
+                location: location,
+                radius: 25000,
+                query: '動物救急センター 救急'
+            }
+        },
+        {
+            name: 'Quaternary: 24-hour veterinary search',
+            request: {
+                location: location,
+                radius: 30000,
+                keyword: '24時間 動物病院'
+            }
+        },
+        {
+            name: 'Fallback: General veterinary search',
             request: {
                 location: location,
                 radius: 10000,
                 type: 'veterinary_care'
             }
-        },
-        {
-            name: 'Secondary: Keyword search',
-            request: {
-                location: location,
-                radius: 10000,
-                keyword: '動物病院'
-            }
-        },
-        {
-            name: 'Tertiary: Text search',
-            request: {
-                location: location,
-                radius: 15000,
-                query: '動物病院 獣医'
-            }
         }
     ];
 
     let searchIndex = 0;
+    const self = this;
 
     function tryNextSearch() {
         if (searchIndex >= searchStrategies.length) {
-            showError('この周辺には動物病院が見つかりませんでした。検索範囲を広げるか、地域の動物医師会などにご確認ください。');
+            self.showError('この周辺には動物病院が見つかりませんでした。検索範囲を広げるか、地域の動物医師会などにご確認ください。');
             return;
         }
 
@@ -308,7 +329,7 @@ function searchHospitals(location) {
         // Use textSearch for query-based searches, nearbySearch for others
         const searchMethod = strategy.request.query ? 'textSearch' : 'nearbySearch';
         
-        service[searchMethod](strategy.request, function(results, status) {
+        self.service[searchMethod](strategy.request, function(results, status) {
             console.log(`🔍 Strategy ${searchIndex + 1} results:`, status, results?.length || 0, 'results');
             
             if (status === google.maps.places.PlacesServiceStatus.OK && results && results.length > 0) {
@@ -321,31 +342,77 @@ function searchHospitals(location) {
                     console.log(`     Place ID: ${place.place_id}`);
                 });
                 
-                // Filter results to ensure they're actually veterinary related
+                // Filter results to strictly include only animal hospitals
                 const filteredResults = results.filter(place => {
                     const name = place.name.toLowerCase();
                     const types = place.types || [];
-                    return (
-                        name.includes('動物') || 
-                        name.includes('獣医') || 
-                        name.includes('ペット') ||
-                        name.includes('アニマル') ||
-                        types.includes('veterinary_care') ||
-                        types.includes('hospital')
-                    );
+                    
+                    // 絶対除外: 人間の医療施設
+                    const isHumanMedical = name.includes('病院') && !name.includes('動物') && !name.includes('獣医') && !name.includes('ペット') && !name.includes('アニマル');
+                    const isHumanEmergency = (name.includes('救急') || name.includes('emergency')) && !name.includes('動物') && !name.includes('獣医');
+                    const isClinic = name.includes('クリニック') && !name.includes('動物') && !name.includes('獣医') && !name.includes('ペット');
+                    
+                    if (isHumanMedical || isHumanEmergency || isClinic) {
+                        console.log('🚫 Human medical facility excluded:', place.name);
+                        return false;
+                    }
+                    
+                    // 除外: ペットショップや非医療施設
+                    const isNonMedical = name.includes('ペットショップ') || name.includes('専門店') || 
+                                        name.includes('トリミング') || name.includes('ホテル') || 
+                                        name.includes('美容') || name.includes('サロン') || 
+                                        name.includes('ペットフード') || name.includes('用品');
+                    
+                    if (isNonMedical) {
+                        console.log('🚫 Non-medical facility excluded:', place.name);
+                        return false;
+                    }
+                    
+                    // 必須条件: 動物医療関連のキーワードが含まれている
+                    const hasAnimalKeyword = name.includes('動物') || name.includes('獣医') || 
+                                           name.includes('ペット') || name.includes('アニマル') ||
+                                           name.includes('どうぶつ');
+                    
+                    // types.includes('veterinary_care') も許可するが、名前チェックも必要
+                    const isVeterinaryType = types.includes('veterinary_care');
+                    
+                    if (hasAnimalKeyword || isVeterinaryType) {
+                        // さらに動物病院であることを確認
+                        const isVetHospital = name.includes('病院') || name.includes('クリニック') || 
+                                            name.includes('センター') || isVeterinaryType;
+                        
+                        if (isVetHospital) {
+                            console.log('✅ Animal hospital confirmed:', place.name);
+                            return true;
+                        }
+                    }
+                    
+                    console.log('❌ Not an animal hospital:', place.name);
+                    return false;
                 });
 
                 console.log(`🏥 Filtered to ${filteredResults.length} veterinary-related results`);
 
                 if (filteredResults.length > 0) {
-                    // Sort by distance
+                    // Sort by priority (emergency first) then by distance
                     filteredResults.sort((a, b) => {
-                        const distanceA = calculateDistance(location, a.geometry.location);
-                        const distanceB = calculateDistance(location, b.geometry.location);
+                        const aName = a.name.toLowerCase();
+                        const bName = b.name.toLowerCase();
+                        
+                        // Priority scoring
+                        const aIsEmergency = aName.includes('夜間') || aName.includes('救急') || aName.includes('24時間') || aName.includes('緊急');
+                        const bIsEmergency = bName.includes('夜間') || bName.includes('救急') || bName.includes('24時間') || bName.includes('緊急');
+                        
+                        if (aIsEmergency && !bIsEmergency) return -1;
+                        if (!aIsEmergency && bIsEmergency) return 1;
+                        
+                        // If same priority, sort by distance
+                        const distanceA = self.calculateDistance(location, a.geometry.location);
+                        const distanceB = self.calculateDistance(location, b.geometry.location);
                         return distanceA - distanceB;
                     });
 
-                    displayResults(filteredResults, location);
+                    self.displayResults(filteredResults, location, windowStart, windowEnd, today);
                     return;
                 }
             }
@@ -357,21 +424,18 @@ function searchHospitals(location) {
     }
 
     tryNextSearch();
-}
+};
 
-/**
- * Display search results on map and in list
- * @param {Array} places - Array of place objects from Places API
- * @param {google.maps.LatLng|Object} userLocation - User's location
- */
-function displayResults(places, userLocation) {
-    hideLoading();
-    showResults();
+VetHospitalMap.prototype.displayResults = function(places, userLocation, windowStart, windowEnd, today) {
+    this.hideLoading();
+    this.showResults();
 
     // Clear previous results
-    hospitalsList.innerHTML = '';
+    this.domElements.hospitalsList.innerHTML = '';
+    this.clearMarkers();
 
     // Add markers and create hospital cards
+    const self = this;
     places.forEach((place, index) => {
         console.log('Processing place:', place.name, 'PlaceID:', place.place_id);
         
@@ -382,7 +446,7 @@ function displayResults(places, userLocation) {
                 fields: ['name', 'formatted_phone_number', 'international_phone_number', 'rating', 'opening_hours', 'website', 'vicinity', 'geometry']
             };
 
-            service.getDetails(request, (placeDetails, status) => {
+            self.service.getDetails(request, (placeDetails, status) => {
                 console.log('📞 getDetails result for', place.name, ':', status);
                 if (placeDetails) {
                     console.log('📞 Full place details:', placeDetails);
@@ -433,14 +497,16 @@ function displayResults(places, userLocation) {
                     };
                 }
 
-                // 営業時間チェック: open_now=falseの病院は非表示
-                if (shouldDisplayHospital(finalPlace)) {
-                    const hospitalCard = createHospitalCard(finalPlace, userLocation);
-                    hospitalsList.appendChild(hospitalCard);
+                // 新しい営業時間チェック
+                if (self.shouldDisplayHospitalWithWindow(finalPlace, windowStart, windowEnd, today)) {
+                    const hospitalCard = self.createHospitalCard(finalPlace, userLocation);
+                    self.domElements.hospitalsList.appendChild(hospitalCard);
                     console.log('📞 Card created for:', finalPlace.name, 'Phone:', finalPlace.formatted_phone_number);
+                    
+                    // マーカーも作成
+                    self.createMarker(finalPlace, index);
                 } else {
-                    console.log('🔴 Hospital closed, not displaying:', finalPlace.name);
-                    return; // 営業時間外の病院はマーカーも作成しない
+                    console.log('🔴 Hospital not in time window, not displaying:', finalPlace.name);
                 }
             });
         } else {
@@ -451,108 +517,128 @@ function displayResults(places, userLocation) {
                 formatted_phone_number: `03-123-456${index + 7} (サンプル)`
             };
             
-            // 営業時間チェック: open_now=falseの病院は非表示
-            if (shouldDisplayHospital(fallbackPlace)) {
-                const hospitalCard = createHospitalCard(fallbackPlace, userLocation);
-                hospitalsList.appendChild(hospitalCard);
+            // 新しい営業時間チェック
+            if (self.shouldDisplayHospitalWithWindow(fallbackPlace, windowStart, windowEnd, today)) {
+                const hospitalCard = self.createHospitalCard(fallbackPlace, userLocation);
+                self.domElements.hospitalsList.appendChild(hospitalCard);
+                
+                // マーカーも作成
+                self.createMarker(fallbackPlace, index);
             } else {
-                console.log('🔴 Hospital closed, not displaying:', fallbackPlace.name);
-                return; // 営業時間外の病院はマーカーも作成しない
+                console.log('🔴 Hospital not in time window, not displaying:', fallbackPlace.name);
             }
         }
 
-        // 営業時間チェック: 表示対象の病院のみマーカーを作成
-        if (!shouldDisplayHospital(place)) {
-            return; // 営業時間外の病院はマーカーを作成しない
-        }
-
-        // Add marker to map with mobile-optimized flag icon
-        const marker = new google.maps.Marker({
-            position: place.geometry.location,
-            map: map,
-            title: place.name,
-            icon: {
-                url: 'data:image/svg+xml;base64,' + btoa(`
-                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="30" viewBox="0 0 60 30">
-                        <line x1="3" y1="0" x2="3" y2="30" stroke="#666" stroke-width="2"/>
-                        <path d="M3 3 L48 3 L52 12 L48 21 L3 21 Z" fill="#dc3545" stroke="white" stroke-width="1"/>
-                        <rect x="8" y="8" width="5" height="1.5" fill="white"/>
-                        <rect x="9.5" y="6.5" width="1.5" height="5" fill="white"/>
-                    </svg>
-                `),
-                scaledSize: new google.maps.Size(60, 30),
-                anchor: new google.maps.Point(3, 30)
-            }
-        });
-
-        // Add hospital name label for mobile - only show short name
-        const shortName = place.name.length > 6 ? place.name.substring(0, 6) + '..' : place.name;
-        const infoLabel = new google.maps.InfoWindow({
-            content: `<div style="font-size: 10px; font-weight: bold; color: #333; background: rgba(255,255,255,0.95); padding: 1px 4px; border-radius: 3px; border: 1px solid #ccc; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">${shortName}</div>`,
-            position: place.geometry.location,
-            disableAutoPan: true,
-            pixelOffset: new google.maps.Size(30, -8)
-        });
-        infoLabel.open(map);
-
-        // Store hospital info for use in click handler
-        marker.hospitalInfo = {
-            name: place.name,
-            vicinity: place.vicinity || place.formatted_address || ''
-        };
-
-        markers.push(marker);
-
-        // Add click listener for marker
-        marker.addListener('click', function() {
-            infoWindow.setContent(`
-                <div style="max-width: 200px;">
-                    <h3 style="margin: 0 0 8px 0; font-size: 16px;">${place.name}</h3>
-                    <p style="margin: 0; font-size: 14px; color: #666;">${place.vicinity}</p>
-                </div>
-            `);
-            infoWindow.open(map, marker);
-        });
     });
 
+    // Adjust map bounds to show all markers after all async operations complete
+    setTimeout(() => {
+        this.adjustMapBounds(userLocation);
+    }, 1000);
+};
+
+VetHospitalMap.prototype.createMarker = function(place, index) {
+    // Add marker to map with mobile-optimized flag icon
+    const marker = new google.maps.Marker({
+        position: place.geometry.location,
+        map: this.map,
+        title: place.name,
+        icon: {
+            url: 'data:image/svg+xml;base64,' + btoa(`
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="30" viewBox="0 0 60 30">
+                    <line x1="3" y1="0" x2="3" y2="30" stroke="#666" stroke-width="2"/>
+                    <path d="M3 3 L48 3 L52 12 L48 21 L3 21 Z" fill="#dc3545" stroke="white" stroke-width="1"/>
+                    <rect x="8" y="8" width="5" height="1.5" fill="white"/>
+                    <rect x="9.5" y="6.5" width="1.5" height="5" fill="white"/>
+                </svg>
+            `),
+            scaledSize: new google.maps.Size(60, 30),
+            anchor: new google.maps.Point(3, 30)
+        }
+    });
+
+    // Add hospital name label for mobile - only show short name
+    const shortName = place.name.length > 6 ? place.name.substring(0, 6) + '..' : place.name;
+    const infoLabel = new google.maps.InfoWindow({
+        content: `<div style="font-size: 10px; font-weight: bold; color: #333; background: rgba(255,255,255,0.95); padding: 1px 4px; border-radius: 3px; border: 1px solid #ccc; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">${shortName}</div>`,
+        position: place.geometry.location,
+        disableAutoPan: true,
+        pixelOffset: new google.maps.Size(30, -8)
+    });
+    infoLabel.open(this.map);
+
+    // Store hospital info for use in click handler
+    marker.hospitalInfo = {
+        name: place.name,
+        vicinity: place.vicinity || place.formatted_address || ''
+    };
+
+    this.markers.push(marker);
+
+    // Add click listener for marker
+    const self = this;
+    marker.addListener('click', function() {
+        self.infoWindow.setContent(`
+            <div style="max-width: 200px;">
+                <h3 style="margin: 0 0 8px 0; font-size: 16px;">${place.name}</h3>
+                <p style="margin: 0; font-size: 14px; color: #666;">${place.vicinity}</p>
+            </div>
+        `);
+        self.infoWindow.open(self.map, marker);
+    });
+};
+
+VetHospitalMap.prototype.adjustMapBounds = function(userLocation) {
     // Adjust map bounds to show all markers
-    if (markers.length > 0) {
+    if (this.markers.length > 0) {
         const bounds = new google.maps.LatLngBounds();
         bounds.extend(userLocation);
-        markers.forEach(marker => bounds.extend(marker.getPosition()));
-        map.fitBounds(bounds);
+        this.markers.forEach(marker => bounds.extend(marker.getPosition()));
+        this.map.fitBounds(bounds);
     }
-}
+};
 
-/**
- * Create hospital card element for display
- * @param {Object} place - Place object from Places API
- * @param {google.maps.LatLng|Object} userLocation - User's location
- * @return {HTMLElement} Hospital card element
- */
-function createHospitalCard(place, userLocation) {
-    const distance = calculateDistance(userLocation, place.geometry.location);
+VetHospitalMap.prototype.createHospitalCard = function(place, userLocation) {
+    const distance = this.calculateDistance(userLocation, place.geometry.location);
     const distanceText = distance < 1 ? `約${Math.round(distance * 1000)}m` : `約${distance.toFixed(1)}km`;
 
     const card = document.createElement('div');
     card.className = 'hospital-card';
     
-    // 営業時間の表示は削除
+    // 営業時間の表示を作成
+    let openingHoursHtml = '';
+    if (place.opening_hours && place.opening_hours.periods) {
+        const hoursText = this.formatOpeningHours(place.opening_hours.periods);
+        openingHoursHtml = `
+            <div class="hospital-hours">
+                <span class="hours-label">🕒 診察時間:</span>
+                <div class="hours-text">${hoursText}</div>
+            </div>
+        `;
+    } else {
+        openingHoursHtml = `
+            <div class="hospital-hours">
+                <span class="hours-label">🕒 診察時間:</span>
+                <div class="hours-text">営業時間情報なし（お電話でご確認ください）</div>
+            </div>
+        `;
+    }
     
     card.innerHTML = `
         <div class="hospital-name">${place.name}</div>
         <div class="hospital-distance">${distanceText}</div>
         <div class="hospital-address">${place.vicinity}</div>
-        ${place.rating ? `<div class="hospital-rating">⭐ ${place.rating} / 5.0</div>` : ''}
+        ${openingHoursHtml}
         <div class="hospital-phone">
             <a href="tel:${place.formatted_phone_number || '03-1234-5678'}" class="phone-link">
-                📞 ${place.formatted_phone_number || `03-123-456${index + 7} (サンプル)`}
+                📞 ${place.formatted_phone_number || `03-123-456${Math.floor(Math.random() * 900) + 100} (サンプル)`}
             </a>
         </div>
         <div class="hospital-actions">
             <a href="tel:${place.formatted_phone_number || '03-1234-5678'}" class="hospital-action-btn phone-btn">
                 📞 電話をかける
             </a>
+            ${place.website ? `<a href="${place.website}" target="_blank" class="hospital-action-btn website-btn">🌐 ホームページ</a>` : ''}
             <button class="hospital-action-btn map-btn" onclick="openInMaps(${place.geometry.location.lat()}, ${place.geometry.location.lng()}, '${encodeURIComponent(place.name)}')">
                 🗺️ 地図アプリで開く
             </button>
@@ -560,15 +646,9 @@ function createHospitalCard(place, userLocation) {
     `;
 
     return card;
-}
+};
 
-/**
- * Calculate distance between two points using Haversine formula
- * @param {Object} pos1 - First position with lat/lng
- * @param {Object} pos2 - Second position with lat/lng
- * @return {number} Distance in kilometers
- */
-function calculateDistance(pos1, pos2) {
+VetHospitalMap.prototype.calculateDistance = function(pos1, pos2) {
     const lat1 = typeof pos1.lat === 'function' ? pos1.lat() : pos1.lat;
     const lng1 = typeof pos1.lng === 'function' ? pos1.lng() : pos1.lng;
     const lat2 = typeof pos2.lat === 'function' ? pos2.lat() : pos2.lat;
@@ -582,7 +662,7 @@ function calculateDistance(pos1, pos2) {
               Math.sin(dLng/2) * Math.sin(dLng/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return R * c;
-}
+};
 
 /**
  * Initiate phone call to hospital
@@ -611,109 +691,165 @@ function openInMaps(lat, lng, name) {
     }
 }
 
-/**
- * Clear all markers from the map
- */
-function clearMarkers() {
-    markers.forEach(marker => marker.setMap(null));
-    markers = [];
-}
+VetHospitalMap.prototype.clearMarkers = function() {
+    this.markers.forEach(marker => marker.setMap(null));
+    this.markers = [];
+};
 
-/**
- * Show loading indicator
- */
-function showLoading() {
-    loadingArea.style.display = 'block';
-}
+VetHospitalMap.prototype.showLoading = function() {
+    this.domElements.loadingArea.style.display = 'block';
+};
 
-/**
- * Hide loading indicator
- */
-function hideLoading() {
-    loadingArea.style.display = 'none';
-}
+VetHospitalMap.prototype.hideLoading = function() {
+    this.domElements.loadingArea.style.display = 'none';
+};
 
-/**
- * Show error message to user
- * @param {string} message - Error message to display
- */
-function showError(message) {
-    hideLoading();
-    errorMessage.textContent = message;
-    errorArea.style.display = 'block';
-}
+VetHospitalMap.prototype.showError = function(message) {
+    this.hideLoading();
+    this.domElements.errorMessage.textContent = message;
+    this.domElements.errorArea.style.display = 'block';
+};
 
-/**
- * Hide error message
- */
-function hideError() {
-    errorArea.style.display = 'none';
-}
+VetHospitalMap.prototype.hideError = function() {
+    this.domElements.errorArea.style.display = 'none';
+};
 
-/**
- * Show search results area
- */
-function showResults() {
-    resultsArea.style.display = 'block';
-}
+VetHospitalMap.prototype.showResults = function() {
+    this.domElements.resultsArea.style.display = 'block';
+};
 
-/**
- * Hide search results area
- */
-function hideResults() {
-    resultsArea.style.display = 'none';
-}
+VetHospitalMap.prototype.hideResults = function() {
+    this.domElements.resultsArea.style.display = 'none';
+};
 
-/**
- * Share app to Twitter with predefined message
- */
-function shareToTwitter() {
+VetHospitalMap.prototype.shareToTwitter = function() {
     const text = '夜間救急どうぶつ病院マップで緊急時の動物病院を検索しました！';
     const url = window.location.href;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
     window.open(twitterUrl, '_blank');
-}
+};
 
-/**
- * Check if a hospital should be displayed based on opening hours
- * @param {Object} place - Place object from Places API
- * @return {boolean} True if hospital should be displayed
- */
-function shouldDisplayHospital(place) {
-    // 現在時刻チェック: 18時以降の場合のみ夜間病院を表示
-    const now = new Date();
-    const currentHour = now.getHours();
+
+VetHospitalMap.prototype.shouldDisplayHospitalWithWindow = function(place, windowStart, windowEnd, today) {
+    if (!place.opening_hours?.periods) return true; // 営業時間不明の場合は表示
     
-    // 18時未満の場合は表示しない
-    if (currentHour < 18) {
+    return place.opening_hours.periods.some(p => {
+        if (!p.open || !p.close) return false;
+        
+        const oh = parseInt(p.open.time.slice(0,2),10);
+        const om = parseInt(p.open.time.slice(2),10);
+        const ch = parseInt(p.close.time.slice(0,2),10);
+        const cm = parseInt(p.close.time.slice(2),10);
+        
+        // 24時間営業の場合（開始時刻と終了時刻が同じ）
+        if (oh === ch && om === cm) {
+            console.log('🕐 24時間営業病院:', place.name);
+            return true;
+        }
+        
+        // 開始時刻が終了時刻より大きい場合（日をまたぐ営業）
+        if (oh > ch || (oh === ch && om > cm)) {
+            console.log('🌙 深夜営業病院:', place.name, `${oh}:${om.toString().padStart(2,'0')}-${ch}:${cm.toString().padStart(2,'0')}`);
+            return true; // 深夜営業は基本的に表示
+        }
+        
+        const openAbs  = ((p.open.day  - today +7)%7)*24*3600 + oh*3600 + om*60;
+        const closeAbs = ((p.close.day - today +7)%7)*24*3600 + ch*3600 + cm*60;
+        
+        const matches = (openAbs < windowEnd) && (closeAbs > windowStart);
+        console.log('⏰ 時間チェック:', place.name, `${oh}:${om.toString().padStart(2,'0')}-${ch}:${cm.toString().padStart(2,'0')}`, matches ? '✅' : '❌');
+        
+        return matches;
+    });
+};
+
+VetHospitalMap.prototype.formatOpeningHours = function(periods) {
+    const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+    const daySchedule = {};
+    
+    // periodsを曜日別に整理
+    periods.forEach(period => {
+        if (period.open && period.close) {
+            const day = period.open.day;
+            const openTime = period.open.time;
+            const closeTime = period.close.time;
+            
+            // 時間をフォーマット (例: "0900" -> "9:00")
+            const formatTime = (time) => {
+                const hours = parseInt(time.slice(0, 2), 10);
+                const minutes = time.slice(2);
+                return minutes === '00' ? `${hours}時` : `${hours}:${minutes}`;
+            };
+            
+            const timeRange = `${formatTime(openTime)}〜${formatTime(closeTime)}`;
+            
+            if (!daySchedule[day]) {
+                daySchedule[day] = [];
+            }
+            daySchedule[day].push(timeRange);
+        }
+    });
+    
+    // 24時間営業チェック
+    const is24Hours = periods.some(p => {
+        if (p.open && p.close) {
+            return p.open.time === p.close.time;
+        }
         return false;
+    });
+    
+    if (is24Hours) {
+        return '24時間対応';
     }
     
-    // 営業時間情報がない場合は表示（営業時間不明として扱う）
-    if (!place.opening_hours) {
-        return true;
+    if (Object.keys(daySchedule).length === 0) {
+        return '営業時間不明';
     }
     
-    // Google Places APIの営業状況をチェック
-    let isOpen = false;
-    if (place.opening_hours.isOpen && typeof place.opening_hours.isOpen === 'function') {
-        isOpen = place.opening_hours.isOpen();
-    } else if (place.opening_hours.open_now !== undefined) {
-        isOpen = place.opening_hours.open_now;
-    } else {
-        // 営業状況が不明な場合は表示
-        return true;
-    }
+    // 同じ時間の曜日をグループ化
+    const timeGroups = {};
+    Object.entries(daySchedule).forEach(([day, times]) => {
+        const timeKey = times.join('・');
+        if (!timeGroups[timeKey]) {
+            timeGroups[timeKey] = [];
+        }
+        timeGroups[timeKey].push(parseInt(day));
+    });
     
-    return isOpen;
-}
+    // 見やすい形式で表示
+    const formattedGroups = Object.entries(timeGroups).map(([times, days]) => {
+        // 曜日を連続性を考慮してまとめる
+        days.sort((a, b) => a - b);
+        const dayRanges = [];
+        let start = days[0];
+        let end = days[0];
+        
+        for (let i = 1; i <= days.length; i++) {
+            if (i < days.length && days[i] === end + 1) {
+                end = days[i];
+            } else {
+                if (start === end) {
+                    dayRanges.push(dayNames[start]);
+                } else if (end === start + 1) {
+                    dayRanges.push(`${dayNames[start]}・${dayNames[end]}`);
+                } else {
+                    dayRanges.push(`${dayNames[start]}〜${dayNames[end]}`);
+                }
+                if (i < days.length) {
+                    start = end = days[i];
+                }
+            }
+        }
+        
+        return `${dayRanges.join('・')}: ${times}`;
+    });
+    
+    return formattedGroups.join('<br>');
+};
 
-/**
- * Open feedback form for user input
- */
-function openFeedbackForm() {
+VetHospitalMap.prototype.openFeedbackForm = function() {
     // This would typically open a feedback form or redirect to a feedback page
     alert('ご意見・ご感想をお聞かせください。\n\n情報が古い場合や改善点がございましたら、お知らせください。');
-}
+};
 
 console.log('🔥 Script reloaded at Mon Jun 23 12:00:14 JST 2025');
